@@ -97,7 +97,6 @@ body {
 .header {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -173,6 +172,7 @@ body {
     width: 100%;
     height: auto;
     margin-bottom: 1.5rem;
+    margin-top: -2rem;
 }
 
 .hero-text-box {
