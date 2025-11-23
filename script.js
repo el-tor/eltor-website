@@ -1,11 +1,37 @@
 // El Tor Website Interactive Scripts
 
+// Version configuration - update this when releasing new versions
+const ELTOR_VERSION = '0.0.18';
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize features
     initCopyButtons();
     detectPlatform();
     initSmoothScroll();
+    setupDownloadLinks();
 });
+
+/**
+ * Setup download links with direct download URLs
+ */
+function setupDownloadLinks() {
+    const macosCard = document.getElementById('download-macos');
+    const linuxCard = document.getElementById('download-linux');
+    
+    if (macosCard) {
+        // Universal macOS DMG
+        macosCard.href = `https://github.com/el-tor/eltor-app/releases/download/v${ELTOR_VERSION}/eltor_vpn_${ELTOR_VERSION}_universal.dmg`;
+    }
+    
+    if (linuxCard) {
+        // Detect Linux architecture
+        const isArm = /aarch64|arm64/i.test(navigator.userAgent) || 
+                      /aarch64|arm64/i.test(navigator.platform);
+        
+        const arch = isArm ? 'arm64' : 'amd64';
+        linuxCard.href = `https://github.com/el-tor/eltor-app/releases/download/v${ELTOR_VERSION}/eltor_vpn_${ELTOR_VERSION}_${arch}.deb`;
+    }
+}
 
 /**
  * Copy to clipboard functionality for install commands
