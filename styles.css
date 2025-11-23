@@ -58,6 +58,35 @@ body {
     position: relative;
 }
 
+/* Testnet Banner */
+.testnet-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.testnet-banner::before {
+    content: '*EARLY TESTNET';
+    position: absolute;
+    width: 350px;
+    background: #dc2626;
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 12px 0;
+    transform: rotate(-45deg);
+    top: 50px;
+    left: -100px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -181,10 +210,27 @@ body {
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
-    padding: 2rem 2.5rem;
+    padding: 2rem 2.5rem 3rem 2.5rem;
     display: inline-block;
     max-width: 1000px;
     margin-bottom: 3rem;
+    position: relative;
+}
+
+.hero-text-box::after {
+    content: '*EARLY TESTNET: Use at your own risk. Reckless';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #dc2626;
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 8px 0;
+    border-radius: 0 0 12px 12px;
 }
 
 .hero-subtitle {
