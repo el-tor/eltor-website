@@ -119,22 +119,22 @@ get_asset_name() {
     case "$OS_TYPE" in
         Darwin)
             if [ "$ARCH_TYPE" = "aarch64" ]; then
-                ASSET_PATTERN=".*aarch64.*\\.dmg"
+                ASSET_PATTERN="aarch64.*dmg"
             else
-                ASSET_PATTERN=".*x64.*\\.dmg"
+                ASSET_PATTERN="x64.*dmg"
             fi
             ASSET_EXT="dmg"
             ;;
         Linux)
             if [ "$ARCH_TYPE" = "aarch64" ]; then
-                ASSET_PATTERN=".*arm64.*\\.deb"
+                ASSET_PATTERN="arm64.*deb"
             else
-                ASSET_PATTERN=".*amd64.*\\.deb"
+                ASSET_PATTERN="amd64.*deb"
             fi
             ASSET_EXT="deb"
             ;;
         Windows)
-            ASSET_PATTERN=".*\\.exe"
+            ASSET_PATTERN=".*exe"
             ASSET_EXT="exe"
             ;;
     esac
