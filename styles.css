@@ -653,6 +653,10 @@ body {
 
 .twitter-tweet {
     margin: 0 auto !important;
+    background: rgba(10, 13, 18, 0.90) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(145, 99, 215, 0.2) !important;
+    border-radius: 12px !important;
 }
 
 @media (max-width: 768px) {
