@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Tor - High Bandwidth Tor Network with Bitcoin Lightning Incentives</title>
+    <meta name="description" content="El Tor is a high-bandwidth Tor network fork incentivized by the Bitcoin Lightning Network. Download the app to browse privately or run a relay to earn sats.">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eltor.app/">
+    <meta property="og:title" content="El Tor - Private, High-Bandwidth Tor Network">
+    <meta property="og:description" content="Browse privately with high bandwidth or earn Bitcoin by running a relay. El Tor combines Tor privacy with Lightning Network incentives.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo-512.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://eltor.app/">
+    <meta property="twitter:title" content="El Tor - Private, High-Bandwidth Tor Network">
+    <meta property="twitter:description" content="Browse privately with high bandwidth or earn Bitcoin by running a relay.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo-512.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo-512.png">
+    
+    <!-- D3.js and TopoJSON for accurate world map -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Map Background -->
+    <div id="map-background" class="map-background"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo.png" alt="El Tor Logo" class="logo">
+                <nav class="nav">
+                    <a href="#download" class="nav-link">Download</a>
+                    <a href="#relay" class="nav-link">Run a Relay</a>
+                    <a href="https://github.com/el-tor" target="_blank" class="nav-link">GitHub</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-text.png" alt="El Tor" class="hero-logo">
+                <div class="hero-text-box">
+                    <p class="hero-subtitle">High Bandwidth Tor Network Fork Incentivized by the Bitcoin Lightning Network</p>
+                    <p class="hero-description">
+                        Browse the internet privately with high bandwidth, or share your bandwidth as a relay and earn Bitcoin!
+                    </p>
+                </div>
+
+                <!-- Install Command -->
+                <div class="install-section">
+                    <h2 class="install-title">Quick Install</h2>
+                    <div class="terminal-block">
+                        <code id="install-command">curl -sSf https://eltor.app/install.sh | sh</code>
+                        <button id="copy-btn" class="copy-btn" aria-label="Copy install command">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="install-note">Run the command in your terminal, then follow onscreen instructions.</p>
+                </div>
+
+                <!-- Feature Cards -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Private Browsing</h3>
+                        <p>True anonymity through onion routing with paid high-bandwidth circuits</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Lightning Fast</h3>
+                        <p>Higher bandwidth and reliability than traditional Tor network</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">₿</div>
+                        <h3>Earn Sats</h3>
+                        <p>Run a relay and get paid in Bitcoin via Lightning Network</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <h2 class="section-title">Installation Tutorial</h2>
+            <div class="video-wrapper">
+                <iframe 
+                    id="tutorial-video"
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube-nocookie.com/embed/6wRUq1fbqUU" 
+                    title="El Tor Installation Tutorial" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download-section">
+        <div class="container">
+            <h2 class="section-title">Download El Tor VPN</h2>
+            <p class="section-description">Choose your platform to download the latest release</p>
+            
+            <div class="download-grid">
+                <a href="https://github.com/el-tor/eltor-app/releases" 
+                   class="download-card" 
+                   id="download-macos"
+                   target="_blank">
+                    <div class="download-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                    </div>
+                    <h3>macOS</h3>
+                    <p>.dmg installer</p>
+                    <span class="download-badge">Download</span>
+                </a>
+
+                <a href="https://github.com/el-tor/eltor-app/releases" 
+                   class="download-card" 
+                   id="download-linux"
+                   target="_blank">
+                    <div class="download-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.581 19.049c-.55-.446-.336-1.431-.907-1.917.553-3.365-.997-6.331-2.845-8.232-1.551-1.595-1.051-3.147-1.051-4.49 0-2.146-.881-4.41-3.55-4.41-2.853 0-3.635 2.38-3.663 3.738-.068 3.262.659 4.11-1.25 6.484-2.246 2.793-2.577 5.579-2.07 7.057-.237.276-.557.582-1.155.835-1.652.72-.441 1.925-.898 2.78-.13.243-.192.497-.192.74 0 .75.596 1.399 1.679 1.302 1.461-.13 2.809.905 3.681.905.77 0 1.402-.438 1.696-1.041 1.377-.339 3.077-.296 4.453.059.247.691.917 1.141 1.662 1.141 1.631 0 1.945-1.849 3.816-2.475.674-.225 1.013-.879 1.013-1.488 0-.39-.139-.761-.419-.988zM11.556 6.898c.337.009.672.018 1.018.034-.333.646-.934.99-1.664.99s-1.331-.344-1.664-.99c.346-.016.682-.025 1.018-.034.433-.013.854-.013 1.292 0zm.832 2.676c-.703-.007-1.417-.043-2.143-.105a.516.516 0 0 1-.451-.617c.082-.424.456-.719.862-.659.754.113 1.516.136 2.28.068a.613.613 0 0 1 .597.414c.099.393-.196.79-.597.824-.479.045-.963.061-1.439.061-.042 0-.084.001-.126.002l.017.013zm1.807 9.415c-.05-.286-.183-.55-.39-.763l-.333-.343a.753.753 0 0 1-.172-.818c.054-.122.123-.235.207-.339.239-.295.607-.463.994-.454.477.012.907.285 1.098.704a1.17 1.17 0 0 1-.06 1.177c-.148.248-.37.446-.629.554-.398.166-.849.122-1.211-.119-.123-.079-.221-.191-.27-.335l-.234-.264zm-3.455.051c-.049.232-.152.451-.302.636a1.13 1.13 0 0 1-.854.428c-.372.015-.738-.145-.975-.424-.238-.278-.315-.661-.2-1.013a1.093 1.093 0 0 1 .673-.707c.346-.124.729-.09 1.048.094.319.185.545.508.611.88l-.001.106z"/>
+                        </svg>
+                    </div>
+                    <h3>Linux</h3>
+                    <p>.deb package</p>
+                    <span class="download-badge">Download</span>
+                </a>
+
+                <a href="https://github.com/el-tor/eltor-app/releases" 
+                   class="download-card" 
+                   id="download-windows"
+                   target="_blank">
+                    <div class="download-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
+                    </div>
+                    <h3>Windows</h3>
+                    <p>.exe installer</p>
+                    <span class="download-badge">Download</span>
+                </a>
+            </div>
+
+            <p class="download-footer">
+                All downloads available on <a href="https://github.com/el-tor/eltor-app/releases" target="_blank">GitHub Releases</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Relay Operator Section -->
+    <section id="relay" class="relay-section">
+        <div class="container">
+            <h2 class="section-title">Run a Relay, Earn Sats</h2>
+            <p class="section-description">
+                Turn your bandwidth into Bitcoin. Relay operators earn satoshis via Lightning Network for every circuit they help route.
+            </p>
+
+            <div class="relay-grid">
+                <div class="relay-card">
+                    <div class="relay-icon">💰</div>
+                    <h3>Passive Income</h3>
+                    <p>Earn sats automatically as you route traffic. Default rate: 1000 msats per minute.</p>
+                </div>
+                <div class="relay-card">
+                    <div class="relay-icon">⚡</div>
+                    <h3>Lightning Payments</h3>
+                    <p>Get paid instantly via BOLT 12 offers with blinded paths for privacy.</p>
+                </div>
+                <div class="relay-card">
+                    <div class="relay-icon">⚙️</div>
+                    <h3>Configurable Rates</h3>
+                    <p>Set your own payment rates and terms. Fully open source and transparent.</p>
+                </div>
+            </div>
+
+            <div class="relay-flow">
+                <h3>How It Works</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <span class="step-number">1</span>
+                        <p>Install El Tor</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="step-number">2</span>
+                        <p>Connect Wallet</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="step-number">3</span>
+                        <p>Set your rates</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="step-number">4</span>
+                        <p>Earn sats!</p>
+                    </div>
+                </div>
+                <h4 style="text-align: center; margin-top: 3rem; margin-bottom: 1rem; color: var(--teal-4);">Bitcoin++ Riga Privacy Conference Talk</h4>
+                <div class="video-wrapper" style="margin: 0 auto; max-width: 800px;">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube-nocookie.com/embed/96n34yZAO1U?start=801" 
+                        title="El Tor - Bitcoin++ Riga Privacy Conference" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="relay-cta">
+                <h3>Get Started with eltord Daemon</h3>
+                <p>For advanced users who want to run a dedicated relay</p>
+                <div class="terminal-block relay-terminal">
+                    <code>curl -sSf https://eltor.app/install.sh | sh -s -- --daemon</code>
+                    <button class="copy-btn copy-relay-btn" aria-label="Copy relay install command">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <a href="https://github.com/el-tor/eltord/releases" class="btn-secondary" target="_blank">
+                    View eltord Releases →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo.png" alt="El Tor" class="footer-logo">
+                    <p>High bandwidth Tor network fork<br>Incentivized by Bitcoin Lightning Network</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/el-tor" target="_blank">GitHub Organization</a></li>
+                        <li><a href="https://github.com/el-tor/eltor-app" target="_blank">El Tor App</a></li>
+                        <li><a href="https://github.com/el-tor/eltord" target="_blank">Eltord Daemon</a></li>
+                        <li><a href="https://github.com/el-tor/eltord/tree/master/spec" target="_blank">Technical Specs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/el-tor/eltor-app/issues" target="_blank">Report Issues</a></li>
+                        <li><a href="https://github.com/el-tor/eltor-app/discussions" target="_blank">Discussions</a></li>
+                        <li><a href="https://github.com/el-tor/eltor-store" target="_blank">Umbrel App Store</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 El Tor Project. Open Source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="map-background.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
