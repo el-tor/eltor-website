@@ -118,11 +118,8 @@ fetch_release_info() {
 get_asset_name() {
     case "$OS_TYPE" in
         Darwin)
-            if [ "$ARCH_TYPE" = "aarch64" ]; then
-                ASSET_PATTERN="aarch64.*dmg"
-            else
-                ASSET_PATTERN="x64.*dmg"
-            fi
+            # macOS uses universal DMG for both architectures
+            ASSET_PATTERN="universal.*dmg"
             ASSET_EXT="dmg"
             ;;
         Linux)
@@ -189,6 +186,17 @@ install_package() {
             print_warning "Please drag El Tor to your Applications folder when the installer opens"
             open "$DOWNLOAD_PATH"
             print_success "Installer opened. Follow the on-screen instructions."
+            print_warning "\n⚠️  Security Notice:"
+            print_info "If macOS blocks the app with 'Apple could not verify', use one of these methods:"
+            print_info "\n  Method 1 (Easiest):"
+            print_info "    1. Go to System Settings > Privacy & Security"
+            print_info "    2. Scroll down to Security section"
+            print_info "    3. Click 'Open Anyway' next to the El Tor message"
+            print_info "\n  Method 2:"
+            print_info "    1. Go to Applications folder"
+            print_info "    2. Right-click eltor.app and select 'Open'"
+            print_info "    3. Click 'Open' in the dialog that appears"
+            print_info "\nThis only needs to be done once.\n"
             ;;
             
         Linux)
