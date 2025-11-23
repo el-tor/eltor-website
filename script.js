@@ -322,6 +322,77 @@ function initBackToTop() {
 // Initialize back to top button (optional - uncomment if desired)
 // initBackToTop();
 
+/**
+ * Load latest tweets from @eltordev using CORS proxy
+ */
+async function loadLatestTweets() {
+    const tweetsGrid = document.getElementById('tweets-grid');
+    if (!tweetsGrid) return;
+
+    const USERNAME = 'eltordev';
+    const NUM_TWEETS = 3;
+
+    try {
+        // Use CORS proxy to fetch from nitter
+        const corsProxy = 'https://corsproxy.io/?';
+        const nitterUrl = `https://nitter.net/search?f=tweets&q=${USERNAME}`;
+        const response = await fetch(corsProxy + encodeURIComponent(nitterUrl));
+        const html = await response.text();
+
+        // Extract tweet IDs from HTML
+        const tweetIds = [];
+        const regex = /\/eltordev\/status\/(\d+)/g;
+        let match;
+
+        while ((match = regex.exec(html)) !== null && tweetIds.length < NUM_TWEETS) {
+            const id = match[1];
+            if (!tweetIds.includes(id)) {
+                tweetIds.push(id);
+            }
+        }
+
+        if (tweetIds.length > 0) {
+            // Clear loading message
+            tweetsGrid.innerHTML = '';
+
+            // Create tweet embeds
+            tweetIds.forEach(id => {
+                const tweetItem = document.createElement('div');
+                tweetItem.className = 'tweet-item';
+                
+                const blockquote = document.createElement('blockquote');
+                blockquote.className = 'twitter-tweet';
+                blockquote.setAttribute('data-theme', 'dark');
+                blockquote.setAttribute('data-dnt', 'true');
+                
+                const link = document.createElement('a');
+                link.href = `https://twitter.com/eltordev/status/${id}`;
+                
+                blockquote.appendChild(link);
+                tweetItem.appendChild(blockquote);
+                tweetsGrid.appendChild(tweetItem);
+            });
+
+            // Load Twitter widgets to render the tweets
+            if (window.twttr && window.twttr.widgets) {
+                window.twttr.widgets.load(tweetsGrid);
+            }
+
+            console.log(`✅ Loaded ${tweetIds.length} tweets from @${USERNAME}`);
+        } else {
+            tweetsGrid.innerHTML = '<p style="text-align: center; color: var(--gray-6);">No recent tweets found. Follow <a href="https://x.com/eltordev" target="_blank" style="color: var(--purple-5);">@eltordev</a> on X!</p>';
+        }
+    } catch (error) {
+        console.error('Failed to load tweets:', error);
+        tweetsGrid.innerHTML = '<p style="text-align: center; color: var(--gray-6);">Follow <a href="https://x.com/eltordev" target="_blank" style="color: var(--purple-5);">@eltordev</a> on X for the latest updates!</p>';
+    }
+}
+
+// Load tweets when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadLatestTweets();
+});
+
 // Console easter egg for developers
 console.log('%cEl Tor', 'font-size: 3rem; font-weight: bold; background: linear-gradient(135deg, #9163d7 0%, #38A196 100%); -webkit-background-clip: text; color: transparent;');
 console.log('%cHigh bandwidth Tor network fork\nIncentivized by the Bitcoin Lightning Network', 'font-size: 1rem; color: #9163d7;');
