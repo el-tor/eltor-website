@@ -176,16 +176,27 @@ class MapBackground {
     drawContinents() {
         if (!this.worldData || !this.pathGenerator) return;
         
-        // Draw simplified continents without country borders
+        // Draw simplified continents without country borders, excluding Antarctica
         this.ctx.fillStyle = 'rgba(60, 60, 60, 0.3)';
         this.ctx.strokeStyle = 'rgba(100, 100, 100, 0.5)';
         this.ctx.lineWidth = 1;
         
-        // Draw landmasses as single shapes
+        // Draw landmasses as single shapes, but clip Antarctica
+        this.ctx.save();
+        
+        // Create clipping region that excludes Antarctica (below -60 latitude)
+        const antarcticaY = this.projection([0, -60])[1];
+        this.ctx.beginPath();
+        this.ctx.rect(0, 0, this.canvas.width, antarcticaY);
+        this.ctx.clip();
+        
+        // Draw the continents
         this.ctx.beginPath();
         this.pathGenerator(this.worldData);
         this.ctx.fill();
         this.ctx.stroke();
+        
+        this.ctx.restore();
     }
     
     drawConnection(conn) {
