@@ -4,6 +4,10 @@
 
 set -e  # Exit on error
 
+# Version configurations
+ELTOR_APP_VERSION="0.0.18"
+ELTORD_VERSION="0.0.2"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -91,6 +95,12 @@ check_dependencies() {
 
 # Fetch latest release info from GitHub
 fetch_release_info() {
+    if [ "$INSTALL_DAEMON" = true ]; then
+        print_info "Using eltord version: v$ELTORD_VERSION"
+        VERSION="v$ELTORD_VERSION"
+        return
+    fi
+    
     print_info "Fetching latest release information..."
     
     RELEASE_URL="https://api.github.com/repos/el-tor/eltor-app/releases/latest"
@@ -116,6 +126,37 @@ fetch_release_info() {
 
 # Determine the correct asset filename based on OS and architecture
 get_asset_name() {
+    if [ "$INSTALL_DAEMON" = true ]; then
+        # eltord daemon uses zip files with specific naming
+        case "$OS_TYPE" in
+            Darwin)
+                if [ "$ARCH_TYPE" = "aarch64" ]; then
+                    DAEMON_ARCH="arm64"
+                else
+                    DAEMON_ARCH="x86_64"
+                fi
+                ASSET_PATTERN="eltord-macOS-${DAEMON_ARCH}.zip"
+                ASSET_EXT="zip"
+                ;;
+            Linux)
+                if [ "$ARCH_TYPE" = "aarch64" ]; then
+                    DAEMON_ARCH="arm64"
+                else
+                    DAEMON_ARCH="x86_64"
+                fi
+                ASSET_PATTERN="eltord-linux-${DAEMON_ARCH}.zip"
+                ASSET_EXT="zip"
+                ;;
+            Windows)
+                ASSET_PATTERN="eltord-windows-x86_64.zip"
+                ASSET_EXT="zip"
+                ;;
+        esac
+        print_info "Looking for daemon asset: $ASSET_PATTERN"
+        return
+    fi
+    
+    # Regular eltor-app installation
     case "$OS_TYPE" in
         Darwin)
             # macOS uses universal DMG for both architectures
@@ -141,6 +182,14 @@ get_asset_name() {
 
 # Find and extract download URL
 find_download_url() {
+    if [ "$INSTALL_DAEMON" = true ]; then
+        # Direct URL for eltord daemon
+        DOWNLOAD_URL="https://github.com/el-tor/eltord/releases/download/v${ELTORD_VERSION}/${ASSET_PATTERN}"
+        FILENAME="$ASSET_PATTERN"
+        print_success "Daemon download URL: $DOWNLOAD_URL"
+        return
+    fi
+    
     print_info "Finding download URL for your platform..."
     
     if [ "$HAS_JQ" = true ]; then
@@ -163,7 +212,7 @@ find_download_url() {
 
 # Download the file
 download_file() {
-    print_info "Downloading El Tor..."
+    print_info "Downloading $([ "$INSTALL_DAEMON" = true ] && echo "eltord daemon" || echo "El Tor")..."
     
     TEMP_DIR=$(mktemp -d)
     DOWNLOAD_PATH="$TEMP_DIR/$FILENAME"
@@ -178,6 +227,11 @@ download_file() {
 
 # Install based on OS
 install_package() {
+    if [ "$INSTALL_DAEMON" = true ]; then
+        install_daemon
+        return
+    fi
+    
     print_info "Installing El Tor..."
     
     case "$OS_TYPE" in
@@ -227,6 +281,60 @@ install_package() {
     esac
 }
 
+# Install eltord daemon
+install_daemon() {
+    print_info "Installing eltord daemon..."
+    
+    # Check for unzip
+    if ! command_exists unzip; then
+        error_exit "unzip is required but not installed. Please install unzip and try again."
+    fi
+    
+    # Extract the zip file
+    EXTRACT_DIR="$TEMP_DIR/eltord"
+    mkdir -p "$EXTRACT_DIR"
+    
+    if ! unzip -q "$DOWNLOAD_PATH" -d "$EXTRACT_DIR"; then
+        error_exit "Failed to extract daemon archive"
+    fi
+    
+    # Find the eltord binary
+    ELTORD_BINARY=$(find "$EXTRACT_DIR" -name "eltord" -o -name "eltord.exe" | head -1)
+    
+    if [ -z "$ELTORD_BINARY" ]; then
+        error_exit "Could not find eltord binary in archive"
+    fi
+    
+    # Install based on OS
+    case "$OS_TYPE" in
+        Darwin|Linux)
+            INSTALL_DIR="/usr/local/bin"
+            print_info "Installing eltord to $INSTALL_DIR..."
+            
+            if [ -w "$INSTALL_DIR" ]; then
+                cp "$ELTORD_BINARY" "$INSTALL_DIR/eltord"
+                chmod +x "$INSTALL_DIR/eltord"
+            else
+                sudo cp "$ELTORD_BINARY" "$INSTALL_DIR/eltord"
+                sudo chmod +x "$INSTALL_DIR/eltord"
+            fi
+            
+            print_success "eltord installed successfully!"
+            print_info "Run 'eltord --help' to see available commands"
+            ;;
+            
+        Windows)
+            INSTALL_DIR="$HOME/bin"
+            mkdir -p "$INSTALL_DIR"
+            print_info "Installing eltord to $INSTALL_DIR..."
+            cp "$ELTORD_BINARY" "$INSTALL_DIR/eltord.exe"
+            print_success "eltord installed to $INSTALL_DIR"
+            print_warning "Make sure $INSTALL_DIR is in your PATH"
+            print_info "Run 'eltord.exe --help' to see available commands"
+            ;;
+    esac
+}
+
 # Cleanup
 cleanup() {
     if [ -n "$TEMP_DIR" ] && [ -d "$TEMP_DIR" ]; then
@@ -258,17 +366,31 @@ main() {
     download_file
     install_package
     
-    print_success "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    print_success "El Tor installation complete!"
-    print_success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    
-    print_info "Next steps:"
-    printf "  1. Launch El Tor from your applications\n"
-    printf "  2. Configure your Lightning wallet\n"
-    printf "  3. Start browsing privately or run a relay\n\n"
-    
-    print_info "Documentation: https://github.com/el-tor/eltor-app"
-    print_info "Support: https://github.com/el-tor/eltor-app/issues"
+    if [ "$INSTALL_DAEMON" = true ]; then
+        print_success "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        print_success "eltord daemon installation complete!"
+        print_success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        
+        print_info "Next steps:"
+        printf "  1. Run 'eltord --help' to see available commands\n"
+        printf "  2. Configure your relay settings\n"
+        printf "  3. Start earning sats by routing traffic\n\n"
+        
+        print_info "Documentation: https://github.com/el-tor/eltord"
+        print_info "Support: https://github.com/el-tor/eltord/issues"
+    else
+        print_success "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        print_success "El Tor installation complete!"
+        print_success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        
+        print_info "Next steps:"
+        printf "  1. Launch El Tor from your applications\n"
+        printf "  2. Configure your Lightning wallet\n"
+        printf "  3. Start browsing privately or run a relay\n\n"
+        
+        print_info "Documentation: https://github.com/el-tor/eltor-app"
+        print_info "Support: https://github.com/el-tor/eltor-app/issues"
+    fi
     
     cleanup
 }
