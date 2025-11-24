@@ -298,12 +298,21 @@ install_daemon() {
         error_exit "Failed to extract daemon archive"
     fi
     
-    # Find the eltord binary
-    ELTORD_BINARY=$(find "$EXTRACT_DIR" -name "eltord" -o -name "eltord.exe" | head -1)
+    # Find the eltord binary (search recursively)
+    if [ "$OS_TYPE" = "Windows" ]; then
+        ELTORD_BINARY=$(find "$EXTRACT_DIR" -type f -name "eltord.exe" | head -1)
+    else
+        ELTORD_BINARY=$(find "$EXTRACT_DIR" -type f -name "eltord" | head -1)
+    fi
     
     if [ -z "$ELTORD_BINARY" ]; then
-        error_exit "Could not find eltord binary in archive"
+        print_error "Could not find eltord binary in archive"
+        print_info "Archive contents:"
+        ls -R "$EXTRACT_DIR"
+        error_exit "Binary not found"
     fi
+    
+    print_info "Found binary: $ELTORD_BINARY"
     
     # Install based on OS
     case "$OS_TYPE" in
@@ -328,6 +337,7 @@ install_daemon() {
             mkdir -p "$INSTALL_DIR"
             print_info "Installing eltord to $INSTALL_DIR..."
             cp "$ELTORD_BINARY" "$INSTALL_DIR/eltord.exe"
+            chmod +x "$INSTALL_DIR/eltord.exe" 2>/dev/null || true
             print_success "eltord installed to $INSTALL_DIR"
             print_warning "Make sure $INSTALL_DIR is in your PATH"
             print_info "Run 'eltord.exe --help' to see available commands"
