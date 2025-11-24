@@ -110,11 +110,18 @@ function fallbackCopy(text) {
 function detectPlatform() {
     const platform = getPlatform();
     
+    console.log('Detected platform:', platform);
+    
     // Show Windows install note only on Windows
-    if (platform === 'windows') {
-        const windowsNote = document.querySelector('.windows-only-note');
-        if (windowsNote) {
+    const windowsNote = document.querySelector('.windows-only-note');
+    console.log('Windows note element:', windowsNote);
+    if (windowsNote) {
+        if (platform === 'windows') {
             windowsNote.style.display = 'block';
+            console.log('Windows note displayed');
+        } else {
+            windowsNote.style.display = 'none';
+            console.log('Windows note hidden (not Windows)');
         }
     }
     
