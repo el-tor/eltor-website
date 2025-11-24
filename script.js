@@ -110,6 +110,14 @@ function fallbackCopy(text) {
 function detectPlatform() {
     const platform = getPlatform();
     
+    // Show Windows install note only on Windows
+    if (platform === 'windows') {
+        const windowsNote = document.querySelector('.windows-only-note');
+        if (windowsNote) {
+            windowsNote.style.display = 'block';
+        }
+    }
+    
     // Map platform to download card IDs
     const platformMap = {
         'macos': 'download-macos',
