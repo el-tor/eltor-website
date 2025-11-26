@@ -42,7 +42,8 @@
                 <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo.png" alt="El Tor Logo" class="logo">
                 <nav class="nav">
                     <a href="#download" class="nav-link">Download</a>
-                    <a href="#relay" class="nav-link">Run a Relay</a>
+                    <a href="#umbrel" class="nav-link">Run a Relay</a>
+                    <a href="#how" class="nav-link">How it works</a>
                     <a href="https://github.com/el-tor" target="_blank" class="nav-link">GitHub</a>
                 </nav>
             </div>
@@ -101,29 +102,11 @@
         </div>
     </section>
 
-    <!-- Video Section -->
-    <section class="video-section">
-        <div class="container">
-            <h2 class="section-title">Installation Tutorial</h2>
-            <div class="video-wrapper">
-                <iframe 
-                    id="tutorial-video"
-                    width="100%" 
-                    height="100%" 
-                    src="https://www.youtube-nocookie.com/embed/6wRUq1fbqUU" 
-                    title="El Tor Installation Tutorial" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    </section>
 
     <!-- Download Section -->
-    <section id="download" class="download-section">
+    <section id="download" class="download-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%); padding: 4rem 0;">
         <div class="container">
-            <h2 class="section-title">Download El Tor VPN</h2>
+            <h2 class="section-title">Download the El Tor VPN</h2>
             <p class="section-description">Choose your platform to download the latest release</p>
             
             <div class="download-grid">
@@ -179,6 +162,57 @@
         </div>
     </section>
 
+
+    <!-- Umbrel Section -->
+    <section class="umbrel-section" id="umbrel" style="padding: 4rem 0;">
+        <div class="container">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
+                <img src="assets/umbrel.png" alt="Umbrel" style="width: 80px; height: 80px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
+                <div>
+                    <h2 class="section-title" style="margin: 0; text-align: left;">Run El Tor Relay on Umbrel</h2>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.9;">One-click installation via Community App Store</p>
+                </div>
+            </div>
+            
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p class="section-description" style="margin-bottom: 2rem;">Get Paid! Deploy your own El Tor Relay on Umbrel with a single click. Support the network and enhance privacy for all users.</p>
+                
+                <a href="https://github.com/el-tor/eltor-store" class="btn-secondary" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; font-size: 1.1rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    View El Tor Umbrel App Store
+                </a>
+                
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(10, 13, 18, 0.6); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                    <p style="margin: 0; opacity: 0.8; line-height: 1.6;">
+                        <strong>Why run a relay?</strong><br>
+                        Help strengthen the El Tor network by running your own relay node. Increase bandwidth, improve anonymity, and contribute to a more decentralized privacy infrastructure.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <h2 class="section-title">Installation Tutorial</h2>
+            <div class="video-wrapper">
+                <iframe 
+                    id="tutorial-video"
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube-nocookie.com/embed/6wRUq1fbqUU" 
+                    title="El Tor Installation Tutorial" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
     <!-- Relay Operator Section -->
     <section id="relay" class="relay-section">
         <div class="container">
@@ -205,7 +239,7 @@
                 </div>
             </div>
 
-            <div class="relay-flow">
+            <div class="relay-flow section" id="how">
                 <h3>How It Works</h3>
                 <div class="flow-steps">
                     <div class="flow-step">
@@ -243,7 +277,7 @@
             </div>
 
             <div class="relay-cta">
-                <h3>Get Started with eltord Daemon</h3>
+                <h3>Prefer the CLI? Get Started with eltord daemon</h3>
                 <p>For advanced users who want to run a dedicated relay</p>
                 <div class="terminal-block relay-terminal">
                     <code>curl -sSf https://eltor.app/install.sh | sh -s -- --daemon</code>
