@@ -487,6 +487,7 @@ body {
     background: rgba(0, 0, 0, 0.2);
 }
 
+
 .relay-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -660,6 +661,10 @@ body {
 }
 
 @media (max-width: 768px) {
+    .testnet-banner {
+        display: none;
+    }
+    
     .tweets-grid {
         grid-template-columns: 1fr;
     }
