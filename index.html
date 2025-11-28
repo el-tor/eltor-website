@@ -39,27 +39,43 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo.png" alt="El Tor Logo" class="logo">
+                <a href="#home"><img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-logo.png" alt="El Tor Logo" class="logo"></a>
+                
                 <nav class="nav">
                     <a href="#download" class="nav-link">Download</a>
                     <a href="#umbrel" class="nav-link">Run a Relay</a>
                     <a href="#how" class="nav-link">How it works</a>
                     <a href="https://github.com/el-tor" target="_blank" class="nav-link">GitHub</a>
+                    <button class="nav-more-btn" id="nav-more-btn" aria-label="More links">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <div class="nav-secondary" id="nav-secondary">
+                        <a href="#updates" class="nav-link">News</a>
+                        <a href="#tutorial" class="nav-link">Tutorial</a>
+                        <a href="#cli" class="nav-link">CLI</a>
+                        <a href="https://github.com/el-tor/eltord/tree/master/spec" target="_blank" class="nav-link">Spec</a>
+                    </div>
                 </nav>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
                 <img src="https://raw.githubusercontent.com/el-tor/eltor-app/master/frontend/src/assets/eltor-text.png" alt="El Tor" class="hero-logo">
+                <br/>
                 <div class="hero-text-box">
-                    <p class="hero-subtitle">High Bandwidth Tor Network Fork Incentivized by the Bitcoin Lightning Network</p>
-                    <p class="hero-description">
-                        Browse the internet Privately, or share your Bandwidth by operating a Relay and earn Bitcoin!
-                    </p>
+                    <p class="hero-subtitle">⚡ High bandwidth Tor network fork</p>
+                    <ul class="hero-description">
+                        <li>&nbsp;₿ &nbsp;Relays earn Bitcoin</li>
+                        <li>🔒 Private browsing via onion routing</li>
+                    </ul>
                 </div>
 
                 <!-- Install Command -->
@@ -107,7 +123,7 @@
     <section id="download" class="download-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%); padding: 4rem 0;">
         <div class="container">
             <h2 class="section-title">Download the El Tor VPN</h2>
-            <p class="section-description">Choose your platform to download the latest release</p>
+            <p class="section-description" style="margin-top: -2rem">Choose your platform to download the latest release</p>
             
             <div class="download-grid">
                 <a href="https://github.com/el-tor/eltor-app/releases" 
@@ -164,12 +180,13 @@
 
 
     <!-- Umbrel Section -->
-    <section class="umbrel-section relay-flow" id="umbrel">
-        <div class="container">
+    <section class="umbrel-section" id="umbrel" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%); padding-bottom: 4rem;">
+        <div class="container download-card">
             <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
                 <img src="assets/umbrel.png" alt="Umbrel" style="width: 80px; height: 80px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
                 <div>
-                    <h2 class="section-title" style="margin: 0; text-align: left;">Run El Tor Relay on Umbrel</h2>
+                    <h2 class="section-title" style="margin: 0; text-align: left; line-height: 1.2;">Want to earn?</h2>
+                    <h2 class="section-title" style="margin: 0; text-align: left; line-height: 1.2;">Install the Relay on Umbrel</h2>
                     <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.9;">One-click installation via Community App Store</p>
                 </div>
             </div>
@@ -195,7 +212,7 @@
     </section>
 
     <!-- Video Section -->
-    <section class="video-section">
+    <section class="video-section" id="tutorial">
         <div class="container">
             <h2 class="section-title">Installation Tutorial</h2>
             <div class="video-wrapper">
@@ -276,9 +293,10 @@
                 </div>
             </div>
 
-            <div class="relay-cta">
-                <h3>Prefer the CLI? Get Started with eltord daemon</h3>
-                <p>For advanced users who want to run a dedicated relay</p>
+            <div class="relay-cta" id="cli">
+                <h3 style="margin: 0; text-align: center; line-height: 1.2;">Prefer the CLI?</h3>
+                <h3 style="margin: 0; text-align: center; line-height: 1.2;"> Get Started with eltord daemon</h3>
+                <p style="margin-top:1rem">For advanced users who want to run a dedicated relay</p>
                 <div class="terminal-block relay-terminal">
                     <code>curl -sSf https://eltor.app/install.sh | sh -s -- --daemon</code>
                     <button class="copy-btn copy-relay-btn" aria-label="Copy relay install command">
@@ -344,18 +362,19 @@
                     <h4>Community</h4>
                     <ul>
                         <li><a href="https://github.com/el-tor/eltor-app/issues" target="_blank">Report Issues</a></li>
-                        <li><a href="https://github.com/el-tor/eltor-app/discussions" target="_blank">Discussions</a></li>
+                        <!-- <li><a href="https://github.com/el-tor/eltor-app/discussions" target="_blank">Discussions</a></li> -->
                         <li><a href="https://github.com/el-tor/eltor-store" target="_blank">Umbrel App Store</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 El Tor. Open Source under MIT License.</p>
+                <p><span id="current-year"></span> El Tor. Open Source under MIT License.</p>
             </div>
         </div>
     </footer>
 
     <script src="map-background.js"></script>
     <script src="script.js"></script>
+    <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

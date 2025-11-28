@@ -146,6 +146,8 @@ body {
 .nav {
     display: flex;
     gap: 2rem;
+    align-items: center;
+    position: relative;
 }
 
 .nav-link {
@@ -173,6 +175,59 @@ body {
 
 .nav-link:hover::after {
     width: 100%;
+}
+
+.nav-more-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-more-btn:hover {
+    color: var(--purple-5);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.nav-secondary {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    flex-direction: column;
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.75rem 0;
+    min-width: 160px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+.nav-secondary.active {
+    display: flex;
+}
+
+.nav-secondary .nav-link {
+    padding: 0.75rem 1.25rem;
+    border-radius: 0;
+}
+
+.nav-secondary .nav-link:hover {
+    background: rgba(139, 92, 246, 0.15);
+}
+
+.nav-secondary .nav-link::after {
+    display: none;
 }
 
 /* Hero Section */
@@ -243,8 +298,16 @@ body {
 .hero-description {
     font-size: 1.2rem;
     color: var(--text-secondary);
-    line-height: 1.8;
+    line-height: 1.2;
     margin-bottom: 1rem;
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.hero-description li {
+    margin-bottom: 0.5rem;
 }
 
 /* Install Section */

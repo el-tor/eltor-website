@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     detectPlatform();
     initSmoothScroll();
     setupDownloadLinks();
+    initNavToggle();
 });
 
 /**
@@ -426,6 +427,35 @@ async function loadLatestTweets() {
     } catch (error) {
         console.error('Failed to load tweets:', error);
         tweetsGrid.innerHTML = '<p style="text-align: center; color: var(--gray-6);">Follow <a href="https://x.com/eltordev" target="_blank" style="color: var(--purple-5);">@eltordev</a> on X for the latest updates!</p>';
+    }
+}
+
+/**
+ * Initialize navigation toggle for secondary menu
+ */
+function initNavToggle() {
+    const moreBtn = document.getElementById('nav-more-btn');
+    const navSecondary = document.getElementById('nav-secondary');
+    
+    if (moreBtn && navSecondary) {
+        moreBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navSecondary.classList.toggle('active');
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navSecondary.contains(e.target) && !moreBtn.contains(e.target)) {
+                navSecondary.classList.remove('active');
+            }
+        });
+        
+        // Close when clicking a link
+        navSecondary.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navSecondary.classList.remove('active');
+            });
+        });
     }
 }
 
