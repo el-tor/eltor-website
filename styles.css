@@ -728,6 +728,10 @@ body {
         display: none;
     }
     
+    .map-background {
+        display: none;
+    }
+    
     .tweets-grid {
         grid-template-columns: 1fr;
     }
