@@ -71,7 +71,7 @@ body {
 }
 
 .testnet-banner::before {
-    content: '*EARLY TESTNET';
+    content: '*EARLY BETA';
     position: absolute;
     width: 350px;
     background: #dc2626;
@@ -273,7 +273,7 @@ body {
 }
 
 .hero-text-box::after {
-    content: '*EARLY TESTNET: Use at your own risk. Reckless';
+    content: '*EARLY BETA: Use at your own risk. Reckless';
     position: absolute;
     bottom: 0;
     left: 0;
