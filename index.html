@@ -171,10 +171,11 @@
     </section>
 
     <!-- Video Section -->
-    <section id="tutorial" class="install-section">
+    <div id="tutorial" class="install-section" style="position: relative; z-index: 10;">
       <div class="container">
         <h2 class="section-title">Installation Tutorial</h2>
-        <div class="video-wrapper">
+        <div class="video-wrapper" style="background: #000; position: relative;">
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 0;"></div>
           <iframe
             id="tutorial-video"
             class="rumble"
@@ -185,11 +186,12 @@
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
+            style="position: relative; z-index: 1;"
           >
           </iframe>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- Download Section -->
     <section
@@ -313,6 +315,7 @@
             justify-content: center;
             gap: 1.5rem;
             margin-bottom: 2rem;
+            margin-top: 2rem;
           "
         >
           <img
@@ -394,7 +397,7 @@
             </p>
           </div>
         </div>
-        <p class="download-footer">
+        <p class="download-footer" style="margin-bottom: 2rem;">
           No Umbrel? No problem! Use the <a href="#cli">eltord daemon</a>.
         </p>
       </div>

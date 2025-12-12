@@ -313,6 +313,7 @@ body {
 /* Install Section */
 .install-section {
     margin-bottom: 4rem;
+    padding: 2rem 0;
 }
 
 .install-title {
